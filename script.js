@@ -5,13 +5,15 @@ var items = document.querySelectorAll("li");
 
 function createListItem(inputVal) {
     var li = document.createElement("li");
-    let button = document.createElement("button");
+    let btn = document.createElement("button");
+
     li.appendChild(document.createTextNode(inputVal));
-    button.appendChild(document.createTextNode("Delete"));
+    btn.appendChild(document.createTextNode("Delete"));
     li.appendChild(document.createTextNode(" "));
-    li.appendChild(button);
+    li.appendChild(btn);
     ul.appendChild(li);
 }
+
 
 input.addEventListener("keypress", function(event) {
 
@@ -28,6 +30,7 @@ btn.addEventListener("click", function() {
         input.value = "";
     }
 });
+
 
 items[0].addEventListener("click", function() {
     items[0].classList.toggle("done");
