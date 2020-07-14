@@ -1,2 +1,2 @@
 # MyShoppingListVersion
-A JavaScript Shopping List application.
+A plain JavaScript Shopping List application.
