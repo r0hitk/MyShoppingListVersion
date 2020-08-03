@@ -1,37 +1,80 @@
 var input = document.getElementById("userinput");
 var btn = document.getElementById("enter");
 var ul = document.querySelector("ul");
-var items = document.querySelectorAll("li");
+var li = document.getElementsByTagName("li");
 
-function createListItem(inputVal) {
+
+function strikeThrough(e) {
+    if (e.target.tagName === "LI") {
+        e.target.classList.toggle("done");
+    }
+};
+
+function inputLength() {
+    return input.value.length;
+}
+
+function createElement() {
+    var divClass = document.createElement("div");
+    divClass.setAttribute("class", "lt_wrapper");
+
+    var deleteDiv = document.createElement("div");
+    deleteDiv.setAttribute("class", "div");
+
     var li = document.createElement("li");
-    let btn = document.createElement("button");
+    li.appendChild(document.createTextNode(input.value));
+    divClass.appendChild(li);
+    divClass.appendChild(deleteDiv);
+    ul.appendChild(divClass);
+    input.value = "";
 
-    li.appendChild(document.createTextNode(inputVal));
-    btn.appendChild(document.createTextNode("Delete"));
-    li.appendChild(document.createTextNode(" "));
-    li.appendChild(btn);
-    ul.appendChild(li);
+
+    var delBtn = document.createElement("button");
+    delBtn.appendChild(document.createTextNode("Delete"));
+    deleteDiv.appendChild(delBtn);
+    addListenerOnDelete();
+}
+
+function addElementOnClick() {
+    if (inputLength() > 0) {
+        createElement();
+    }
+}
+
+function addElementOnEnter(event) {
+    if (inputLength() > 0 && event.keyCode === 13) {
+        createElement();
+    }
 }
 
 
-input.addEventListener("keypress", function(event) {
+function addDeleteButton() {
+    for (var i = 0; i < li.length; i++) {
+        var deleteBtn = document.createElement("button");
+        deleteBtn.appendChild(document.createTextNode("Delete"));
+        var deleteDiv = document.getElementsByClassName("div");
 
-    if (input.value.length > 0 && event.keyCode === 13) {
-        createListItem(input.value);
-        input.value = "";
+        deleteDiv[i].appendChild(deleteBtn);
     }
-});
+}
 
-btn.addEventListener("click", function() {
+function deleteItem() {
 
-    if (input.value.length > 0) {
-        createListItem(input.value);
-        input.value = "";
+    var del = document.querySelectorAll("div");
+    for (var i = 0; i < del.length; i++) {
+        this.parentNode.remove();
     }
-});
+}
 
+function addListenerOnDelete() {
+    var deleteButtons = document.getElementsByClassName("div");
+    for (var i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener("click", deleteItem);
+    }
+}
 
-items[0].addEventListener("click", function() {
-    items[0].classList.toggle("done");
-});
+ul.addEventListener("click", strikeThrough)
+btn.addEventListener("click", addElementOnClick);
+input.addEventListener("keypress", addElementOnEnter);
+addDeleteButton();
+addListenerOnDelete();
